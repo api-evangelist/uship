@@ -1,0 +1,52 @@
+{
+    "name": "uShip",
+    "description": "The world's largest and most trusted transportation marketplace. We make shipping the big stuff easy!",
+    "image": "http:\/\/kinlane-productions.s3.amazonaws.com\/screen-capture-api\/2703-uship.jpg",
+    "tags": [
+        "have api",
+        "marketplaces"
+    ],
+    "created": "2019-12-19",
+    "modified": "2019-12-19",
+    "url": "https:\/\/raw.githubusercontent.com\/api-evangelist\/uship\/master\/apis.json",
+    "specificationVersion": "0.14",
+    "apis": [
+        {
+            "name": "uShip",
+            "description": null,
+            "image": "http:\/\/kinlane-productions.s3.amazonaws.com\/screen-capture-api\/2703-uship.jpg",
+            "humanURL": "http:\/\/www.uship.com\/",
+            "baseURL": "",
+            "tags": [],
+            "properties": [
+                {
+                    "type": "x-postman-collecction",
+                    "url": "https:\/\/raw.githubusercontent.com\/api-evangelist\/1forge\/master\/uship-postman-collection.json"
+                }
+            ]
+        }
+    ],
+    "include": [],
+    "x-common": [
+        {
+            "type": "Crunchbase",
+            "url": "https:\/\/crunchbase.com\/organization\/uship"
+        },
+        {
+            "type": "Developers",
+            "url": "https:\/\/developer.uship.com\/"
+        },
+        {
+            "type": "Github",
+            "url": "https:\/\/github.com\/uship"
+        },
+        {
+            "type": "Twitter",
+            "url": "https:\/\/twitter.com\/uShip"
+        },
+        {
+            "type": "Website",
+            "url": "http:\/\/www.uship.com\/"
+        }
+    ]
+}
