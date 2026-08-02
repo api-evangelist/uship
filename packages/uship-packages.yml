@@ -1,0 +1,57 @@
+generated: '2026-08-02'
+method: searched
+source: >-
+  npm registry search, PyPI, RubyGems, Packagist, NuGet, and the uShip GitHub organization
+  (https://github.com/uShip)
+summary:
+  official_client_libraries: 0
+  community_client_libraries: 2
+  note: >-
+    uShip publishes NO first-party API client SDK in any public package registry. Integration is direct
+    HTTP against api.uship.com/v2 with an OAuth 2.0 bearer token, per the developer portal. The two npm
+    packages below are independent community wrappers of the v2 API, published by individual authors
+    (not the uShip organization). uShip's own archived GitHub repo uShip/uShip-API-Nodejs is the source of
+    both and is itself archived. uShip.Logging on NuGet is genuinely first-party but is an internal
+    log4net logging library, not an API client, so it is recorded as context only.
+packages:
+- language: javascript
+  registry: npm
+  name: uship
+  version: 0.0.5
+  url: https://www.npmjs.com/package/uship
+  install: npm install uship
+  description: uShip API V2 Wrapper for Node.js
+  publisher: brysonr
+  official: false
+  status: unmaintained
+- language: javascript
+  registry: npm
+  name: uship-api
+  version: 0.0.4
+  url: https://www.npmjs.com/package/uship-api
+  install: npm install uship-api
+  description: uShip API V2 Wrapper for Node.js
+  publisher: brysonr
+  official: false
+  status: unmaintained
+non_client_first_party:
+- language: csharp
+  registry: nuget
+  name: uShip.Logging
+  url: https://www.nuget.org/packages/uShip.Logging
+  description: Fluent log4net logging library published by uShip; internal infrastructure, not an API client.
+  official: true
+  api_client: false
+source_repositories:
+- url: https://github.com/uShip/uShip-API-Nodejs
+  description: uShip API V2 Wrapper for Node.js
+  archived: true
+registries_probed:
+- {registry: npm, result: 2 community wrappers, official: false}
+- {registry: pypi, result: none, probed: [uship, uship-api, pyuship]}
+- {registry: rubygems, result: none}
+- {registry: packagist, result: none}
+- {registry: nuget, result: uShip.Logging (not an API client)}
+- {registry: crates.io, result: none, total_hits: 0}
+- {registry: maven-central, result: none, note: 'io.yupiik.uship:* is an unrelated Java microservice toolkit, not uShip Inc.'}
+- {registry: pkg.go.dev, result: none}

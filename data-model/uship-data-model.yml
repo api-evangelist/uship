@@ -1,0 +1,137 @@
+generated: '2026-08-02'
+method: searched
+source: >-
+  uShip developer-portal object reference — /docs/objects/Routes, /docs/objects/Listing_Items,
+  /docs/objects/Assigned_Driver, /docs/objects/Service_Provider, /docs/objects/Pricing,
+  /docs/read/objects/Listers, plus the Search, Listings, Tracking and Published Rates references.
+  No OpenAPI is published, so relationships are read from the provider's own object documentation
+  rather than derived from schema $refs.
+api: uShip API v2
+base: https://api.uship.com/v2
+entities:
+- name: Listing
+  description: >-
+    The central object — a shipment a shipping customer wants moved. Created per commodity category
+    (cars and light trucks, household goods, motorcycles, boats, pets, freight), carries a route, items,
+    pricing format (auction or published rate), lifecycle status and transit status.
+  id_field: listingId
+  paths:
+  - POST /v2/listings
+  - GET /v2/listings
+  - GET /v2/listings/{listingId}
+- name: Route
+  description: >-
+    The origin/destination pair for a listing, with distance and per-stop address plus time frame
+    (earliestArrival/latestArrival/timeFrameType).
+- name: ListingItem
+  description: The individual pieces of cargo on a listing, with dimensions, weight, and quantity.
+- name: Lister
+  description: The uShip user (shipping customer) who created the listing.
+- name: ServiceProvider
+  description: >-
+    The transport company that bids on or publishes rates for listings, with operating authority and
+    feedback history.
+- name: Bid
+  description: A service provider's offer to move a listing in the auction pricing format.
+  paths:
+  - GET /v2/listings/{listingId}/bids
+- name: Rate
+  description: >-
+    A bookable published rate from a service provider, produced in response to a rate request; valid until
+    expiration or until listing details change significantly.
+- name: RateRequest
+  description: >-
+    A shipping customer's request for bookable rates, carrying id, checksum, testMode, weight, service
+    types, route, lister and items. LTL has its own rate-request flow.
+  id_field: id
+  change_detection: checksum
+- name: Booking
+  description: >-
+    The result of a shipping customer accepting a bid or rate; the service provider accepts or declines
+    the booking request, and on acceptance the listing becomes booked.
+- name: TransitStatus
+  description: >-
+    A recorded tracking event on a booked listing — status (ReadyForDispatch, Dispatched, PickedUp,
+    Delivered), punctuality data trio, recorded timestamp, latitude and longitude.
+  paths:
+  - GET /v2/listings/{listingId}/transitStatuses
+- name: AssignedDriver
+  description: The driver a service provider assigns to a booked listing.
+- name: Pricing
+  description: The pricing object attached to a listing or bid.
+- name: SavedSearch
+  description: >-
+    A stored search over active listings; service providers subscribe rate-request notifications to a
+    saved search.
+  paths:
+  - GET /v2/savedSearches
+  - GET /v2/savedSearches/{savedSearchId}/results
+- name: Search
+  description: >-
+    A RESTful calculator over all active listings — accepts a JSON body of optional criteria (commodities,
+    origin coordinates/radius, destination regions, distanceFromRoute, trailerTypes, sort, pricingFormat)
+    and returns a paged collection.
+  paths:
+  - POST /v2/search
+- name: Conversation
+  description: Messages exchanged between a lister and bidders on a listing.
+- name: Feedback
+  description: Post-delivery ratings between shipping customers and service providers.
+- name: IntegratorUser
+  description: A uShip user account provisioned and managed by an integration partner on behalf of its users.
+- name: Commodity
+  description: Lookup collection of shippable commodity categories and subcategories.
+  lookup: true
+- name: TrailerType
+  description: Lookup collection of trailer types valid for a given commodity.
+  lookup: true
+- name: ServiceType
+  description: Lookup collection of service types (for example EnclosedTransport).
+  lookup: true
+- name: Region
+  description: Lookup collection of regions (for example USA-TX, USA-CA).
+  lookup: true
+- name: AddressType
+  description: Lookup collection of address types (residential, business, port, and so on).
+  lookup: true
+- name: Currency
+  description: Lookup collection of supported currencies.
+  lookup: true
+- name: VehicleYearMakeModel
+  description: Lookup collection of vehicle year, make, model and body type for vehicle listings.
+  lookup: true
+relationships:
+- {from: Listing, to: Lister, kind: belongs_to, via: lister}
+- {from: Listing, to: Route, kind: has_one, via: route}
+- {from: Listing, to: ListingItem, kind: has_many, via: items}
+- {from: Listing, to: Bid, kind: has_many, via: '/v2/listings/{listingId}/bids'}
+- {from: Listing, to: TransitStatus, kind: has_many, via: '/v2/listings/{listingId}/transitStatuses'}
+- {from: Listing, to: Conversation, kind: has_many, via: listing conversations}
+- {from: Listing, to: Feedback, kind: has_many, via: listings feedback}
+- {from: Listing, to: Commodity, kind: belongs_to, via: commodities}
+- {from: Bid, to: ServiceProvider, kind: belongs_to, via: bidder}
+- {from: Bid, to: Pricing, kind: has_one, via: pricing}
+- {from: Booking, to: Bid, kind: belongs_to, via: winning bid}
+- {from: Booking, to: AssignedDriver, kind: has_one, via: assignedDriver}
+- {from: RateRequest, to: Route, kind: has_one, via: route}
+- {from: RateRequest, to: ListingItem, kind: has_many, via: items}
+- {from: RateRequest, to: Lister, kind: belongs_to, via: lister}
+- {from: RateRequest, to: Rate, kind: has_many, via: retrieve rates}
+- {from: Rate, to: ServiceProvider, kind: belongs_to, via: provider}
+- {from: SavedSearch, to: Listing, kind: has_many, via: '/v2/savedSearches/{id}/results'}
+- {from: ServiceProvider, to: SavedSearch, kind: has_many, via: notification subscription}
+- {from: Route, to: Region, kind: references, via: regions}
+- {from: Listing, to: TrailerType, kind: references, via: trailerTypes}
+- {from: Listing, to: ServiceType, kind: references, via: serviceTypes}
+enumerations:
+  transit_status: [ReadyForDispatch, Dispatched, PickedUp, Delivered]
+  punctuality: [OnTime, NotApplicable]
+  pricing_format: [Auction]
+  pricing_format_note: >-
+    Auction is the value documented verbatim in the Search reference; published rates are the second
+    pricing model but its enumeration value is not published outside the gated portal.
+  reference: https://developer.uship.com/about-our-apis/uship-api-reference-enumerations
+notes:
+- >-
+  Entity and relationship names come from uShip's own object reference. Path shapes are the ones uShip
+  documents verbatim; no operationIds are asserted because no OpenAPI is published.

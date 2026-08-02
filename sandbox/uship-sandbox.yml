@@ -1,0 +1,49 @@
+generated: '2026-08-02'
+method: searched
+source: >-
+  https://developer.uship.com/docs/Client_Credentials (documents the staging token endpoint),
+  https://developer.uship.com/docs/Authentication_OAuth2 (staging-first testing requirement),
+  https://developer.uship.com/docs/read/apis/listings (test listings in staging), and the `testMode`
+  field documented on the Published Rates rate-request notification payload
+environments:
+- name: production
+  token_url: https://api.uship.com/oauth/token
+  base_url: https://api.uship.com/v2
+- name: staging
+  token_url: https://apistaging.uship.com/oauth/token
+  base_url: https://apistaging.uship.com/v2
+  scope_note: >-
+    Documented as "Sandbox access (Staging: Search/Estimates/Rates)" — the staging environment covers the
+    search, shipping-price-estimate, and rates surfaces.
+  base_url_note: >-
+    The v2 base path on the staging host is inferred from the production path convention; only the
+    staging OAuth token endpoint is documented verbatim by uShip.
+separation:
+  model: separate-host
+  description: >-
+    Test and live are separated by host (apistaging.uship.com vs api.uship.com) rather than by key prefix
+    or a mode flag on the credential. Separate OAuth credentials are issued per environment by the uShip
+    API team.
+onboarding: >-
+    "Unless you're only implementing the Shipping Price Estimates API, we have you test calls in the
+    staging environment as the first step. Specific instructions for your integration will be emailed to
+    you." Test listings are created in the uShip staging environment by the uShip team working with the
+    developer, before any listing is created in production.
+test_mode_flag:
+  field: testMode
+  type: boolean
+  applies_to: [rate requests, published-rate notifications]
+  description: >-
+    true — the object is in test mode and does not appear on production; false — the object is live and
+    its results appear on production.
+test_values:
+  published: false
+  note: >-
+    uShip publishes no magic test identifiers, test card numbers, or fixture/trigger tooling. Test data is
+    provisioned per-integration by the uShip API team in staging. No test values are invented here.
+self_service:
+  api_key: https://developer.uship.com/about-our-apis/self-service-api-key--ltl-
+  description: >-
+    A self-service API key path exists for the LTL products; every other surface requires uShip approval
+    before staging access is granted.
+support: api-support@uship.com

@@ -1,23 +1,241 @@
 aid: uship
 name: uShip
-description: 'uShip is a company surfaced via the API Evangelist harvest backlog (source: secondary-market)
-  and added to the network as a stub for full-pipeline profiling.'
+description: >-
+  uShip is an online shipping marketplace, founded in 2004 and headquartered in Austin, Texas, that connects
+  individuals and businesses with a network of professional transport service providers to move large, heavy, and
+  oversized freight — cars and light trucks, motorcycles and powersports, boats, furniture and household goods,
+  heavy equipment, livestock, and LTL freight. Shippers list a shipment for free and carriers compete with bids or
+  bookable published rates, giving shippers pricing transparency and choice. uShip exposes the marketplace to
+  partners, affiliates, brokers, carriers, and eCommerce platforms through the uShip API (v2), a RESTful,
+  hypermedia-driven JSON API secured with OAuth 2.0 covering shipment search, listing creation by commodity
+  category, bidding, published/LTL rate requests and rate acceptance, booking, tracking and transit statuses,
+  lookups, and integrator user management. API access is partner-gated — the developer portal at
+  developer.uship.com is invitation-only and access is granted by the uShip API team.
 url: https://raw.githubusercontent.com/api-evangelist/uship/refs/heads/main/apis.yml
+image: https://www.uship.com/apple-touch-icon.png
 x-type: company
 x-source: harvest:secondary-market
-x-tier: stub
-x-tier-reason: harvest
-specificationVersion: '0.20'
+specificationVersion: '0.21'
 created: '2026-08-02'
 modified: '2026-08-02'
+x-enrichment:
+  date: '2026-08-02'
+  status: enriched
+  artifacts_added: 12
+  pass: local-v1
 tags:
-- Company
-apis: []
+- shipping
+- logistics
+- freight
+- marketplace
+- transportation
+- auto-transport
+- ltl-freight
+- last-mile-delivery
+- shipment-tracking
+- ecommerce
+- supply-chain
+- rate-quotes
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
+apis:
+- name: uShip API v2
+  description: >-
+    The core uShip marketplace API — a RESTful, hypermedia-driven JSON API over the shipment lifecycle: searching
+    active listings, creating and retrieving listings by commodity category, bids and bid acceptance, booking,
+    contacts and conversations, feedback, payment codes, listing and transit statuses, tracking history, user
+    profile, and lookup collections (commodities, address types, regions, currencies, service types, trailer
+    types, vehicle year/make/model). Secured with OAuth 2.0; responses carry a links[] hypermedia array with
+    rel/verb/href/title so clients discover permitted next actions instead of hard-coding URIs.
+  humanURL: https://developer.uship.com/docs
+  baseURL: https://api.uship.com/v2
+  tags:
+  - shipping
+  - logistics
+  - marketplace
+  - shipment-tracking
+  - freight
+  properties:
+  - type: Documentation
+    url: https://developer.uship.com/docs
+  - type: APIReference
+    url: https://developer.uship.com/resources
+  - type: GettingStarted
+    url: https://developer.uship.com/about-our-apis/getting-started
+  - type: Authentication
+    url: authentication/uship-authentication.yml
+  - type: Conventions
+    url: conventions/uship-conventions.yml
+  - type: ErrorCatalog
+    url: errors/uship-problem-types.yml
+  - type: DataModel
+    url: data-model/uship-data-model.yml
+  - type: Sandbox
+    url: sandbox/uship-sandbox.yml
+- name: uShip Published Rates API
+  description: >-
+    Bookable, algorithmically priced rates published by service providers in response to shipping-customer rate
+    requests, as an alternative to the auction/bidding flow. Covers the shipping-customer side (create a rate
+    request, create an LTL rate request, retrieve rates, accept a rate) and the service-provider side (setup,
+    rate request notification, create rate, booking acceptance notification), including the HTTP callback
+    notifications uShip POSTs to a provider's recipient URL.
+  humanURL: https://developer.uship.com/docs/read/apis/published_rates
+  baseURL: https://api.uship.com/v2
+  tags:
+  - freight
+  - rate-quotes
+  - ltl-freight
+  - logistics
+  properties:
+  - type: Documentation
+    url: https://developer.uship.com/docs/read/apis/published_rates
+  - type: Webhooks
+    url: asyncapi/uship-notifications-webhooks.yml
+  - type: Authentication
+    url: authentication/uship-authentication.yml
+  - type: Sandbox
+    url: sandbox/uship-sandbox.yml
+- name: uShip LTL Connect API
+  description: >-
+    LTL Connect is uShip's marketplace-connected less-than-truckload product, quoting and booking LTL freight
+    against uShip's carrier network. Documented on the uShip developer portal with a dedicated implementation
+    guide and API reference for shipper integrations.
+  humanURL: https://developer.uship.com/ltl-connect-api/ref
+  baseURL: https://api.uship.com/v2
+  tags:
+  - ltl-freight
+  - freight
+  - logistics
+  properties:
+  - type: Documentation
+    url: https://developer.uship.com/shipper-api-guides/ltl-connect-guide
+  - type: APIReference
+    url: https://developer.uship.com/ltl-connect-api/ref
+- name: uShip LTL Direct API
+  description: >-
+    LTL Direct exposes uShip's directly contracted LTL carrier rates for shipper integrations, as the
+    counterpart to LTL Connect. Documented on the uShip developer portal with its own guide and API reference.
+  humanURL: https://developer.uship.com/ltl-direct-api
+  baseURL: https://api.uship.com/v2
+  tags:
+  - ltl-freight
+  - freight
+  - logistics
+  properties:
+  - type: Documentation
+    url: https://developer.uship.com/shipper-api-guides/ltl-direct-guide
+  - type: APIReference
+    url: https://developer.uship.com/ltl-direct-api/ref
+- name: uShip Cars and Light Trucks API
+  description: >-
+    The vehicle-transport slice of the uShip API — listing creation, published rates, and booking for cars and
+    light trucks, including year/make/model and body-type lookups used by dealers, auctions, and online vehicle
+    marketplaces.
+  humanURL: https://developer.uship.com/cars-and-light-trucks-api-reference/ref
+  baseURL: https://api.uship.com/v2
+  tags:
+  - auto-transport
+  - shipping
+  - marketplace
+  properties:
+  - type: APIReference
+    url: https://developer.uship.com/cars-and-light-trucks-api-reference/ref
+  - type: Documentation
+    url: https://developer.uship.com/shipper-api-guides/published-rates-for-vehicles
+- name: uShip Furniture and Home Delivery API
+  description: >-
+    The furniture and household-goods slice of the uShip API, used by furniture retailers and eCommerce sellers
+    to quote, book, and track first-to-final-mile big-and-bulky home delivery through uShip's carrier network.
+  humanURL: https://developer.uship.com/uship-furniture-api-reference/ref
+  baseURL: https://api.uship.com/v2
+  tags:
+  - last-mile-delivery
+  - ecommerce
+  - shipping
+  properties:
+  - type: APIReference
+    url: https://developer.uship.com/uship-furniture-api-reference/ref
+  - type: Documentation
+    url: https://developer.uship.com/shipper-api-guides/furniture-and-home-api-guide
+- name: uShip Integrator Users API
+  description: >-
+    User-management endpoints for integration partners — provisioning and managing the uShip user accounts an
+    integrator creates and acts on behalf of within the marketplace.
+  humanURL: https://developer.uship.com/integrator-users-api
+  baseURL: https://api.uship.com/v2
+  tags:
+  - marketplace
+  - logistics
+  properties:
+  - type: APIReference
+    url: https://developer.uship.com/integrator-users-api/ref
+- name: uShip Tracking API
+  description: >-
+    Shipment tracking and transit-status history for booked listings — retrieve the recorded location history
+    and most recent reported location, with punctuality measured against the bid's latest pickup and delivery
+    times.
+  humanURL: https://developer.uship.com/shipper-api-guides/tracking-api-guide
+  baseURL: https://api.uship.com/v2
+  tags:
+  - shipment-tracking
+  - logistics
+  - supply-chain
+  properties:
+  - type: Documentation
+    url: https://developer.uship.com/shipper-api-guides/tracking-api-guide
+  - type: APIReference
+    url: https://developer.uship.com/docs/read/apis/Tracking_Reference
 common:
+- type: DomainSecurity
+  url: security/uship-domain-security.yml
 - type: Website
-  url: https://forgeglobal.com/uship_stock/
+  url: https://www.uship.com/
+- type: DeveloperPortal
+  url: https://developer.uship.com/
+- type: Documentation
+  url: https://developer.uship.com/docs
+- type: APIReference
+  url: https://developer.uship.com/resources
+- type: GettingStarted
+  url: https://developer.uship.com/about-our-apis/getting-started
+- type: SignUp
+  url: https://www.uship.com/register/
+- type: Login
+  url: https://www.uship.com/signin.aspx
+- type: Support
+  url: https://help.uship.com/
+- type: Blog
+  url: https://www.uship.com/blog/
+- type: GitHubOrganization
+  url: https://github.com/uShip
+- type: TermsOfService
+  url: https://help.uship.com/hc/articles/360008771433-user-agreement/
+- type: PrivacyPolicy
+  url: https://help.uship.com/hc/articles/360009056894-privacy-policy/
+- type: Pricing
+  url: https://www.uship.com/cost-to-ship/
+- type: StatusPage
+  url: https://uship.statuspage.io/
+- type: LLMsTxt
+  url: llms/uship-llms.txt
+- type: Authentication
+  url: authentication/uship-authentication.yml
+- type: Conventions
+  url: conventions/uship-conventions.yml
+- type: ErrorCatalog
+  url: errors/uship-problem-types.yml
+- type: Lifecycle
+  url: lifecycle/uship-lifecycle.yml
+- type: Conformance
+  url: conformance/uship-conformance.yml
+- type: DataModel
+  url: data-model/uship-data-model.yml
+- type: Packages
+  url: packages/uship-packages.yml
+- type: Webhooks
+  url: asyncapi/uship-notifications-webhooks.yml
+- type: Sandbox
+  url: sandbox/uship-sandbox.yml

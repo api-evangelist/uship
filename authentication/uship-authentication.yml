@@ -1,0 +1,77 @@
+generated: '2026-08-02'
+method: searched
+source: >-
+  uShip developer portal authentication documentation — https://developer.uship.com/docs/Authentication_OAuth2,
+  /docs/Client_Credentials, /docs/Authorization_Code, /docs/Resource_Owner_Password_Credentials, and
+  /docs/read/Authorization_Code (referenced from https://www.uship.com/llms.txt)
+docs: https://developer.uship.com/docs/read/Authorization_Code
+access: >-
+  Partner-gated. The uShip developer portal is invitation-only ("You must have been invited to get access")
+  and OAuth 2.0 credentials are issued by the uShip API team after a uShip Account Manager or General
+  Manager approves API access. An API key can be self-served for the LTL products
+  (https://developer.uship.com/about-our-apis/self-service-api-key--ltl-); keys are managed at
+  https://developer.uship.com/apps/mykeys.
+summary:
+  types: [oauth2, apiKey]
+  api_key_in: [header]
+  oauth2_flows: [authorizationCode, implicit, password, clientCredentials]
+  token_type: bearer
+  token_generator: Mashery
+schemes:
+- name: OAuth2
+  type: oauth2
+  description: >-
+    uShip APIs use OAuth 2.0 (RFC 6749) for authentication and authorization. All four grant types are
+    supported; the grant granted to an integration depends on its use case. Access tokens are presented on
+    every subsequent call as `Authorization: Bearer {access_token}` (the "Bearer" label is case sensitive).
+  flows:
+  - flow: clientCredentials
+    tokenUrl: https://api.uship.com/oauth/token
+    tokenUrl_sandbox: https://apistaging.uship.com/oauth/token
+    description: >-
+      For applications that access endpoints as an anonymous user (for example searching listings).
+      POST content-type application/x-www-form-urlencoded with
+      grant_type=client_credentials&client_id=...&client_secret=...
+    response_fields: [token_type, mapi, access_token, expires_in, refresh_token]
+    documented_expires_in: 2592000
+  - flow: authorizationCode
+    tokenUrl: https://api.uship.com/oauth/token
+    description: >-
+      For web-based scenarios where the source code runs on a private server. Documented as the most secure
+      grant type and the recommended default for server-side integrations.
+  - flow: implicit
+    description: >-
+      For single-page JavaScript and browser/mobile applications that require less security; uShip
+      recommends the authorization code grant instead where a more secure method is available.
+  - flow: password
+    description: >-
+      Resource Owner Password Credentials — for authorizing an app that needs access to a uShip user
+      account where the user supplies their own credentials.
+  scopes: []
+  scopes_note: >-
+    uShip does not publish a named OAuth scope vocabulary. Access is granted per integration — "we grant
+    access to the resources that make the most sense for your integration needs" — so authorization is
+    resource-grant based rather than scope-string based. No scopes/ artifact is emitted.
+- name: APIKey
+  type: apiKey
+  in: header
+  description: >-
+    A self-service API key is available for the LTL products; keys are created and rotated in the developer
+    portal at https://developer.uship.com/apps/mykeys. The archived first-party Node.js wrapper initializes
+    with an API key, API secret, uShip username, and password.
+  docs: https://developer.uship.com/about-our-apis/self-service-api-key--ltl-
+required_headers:
+- header: Authorization
+  value: Bearer {access_token}
+  description: Required for every call after initial authorization. Case-sensitive "Bearer" label plus a space.
+- header: Accept
+  value: application/json
+  description: Acceptable content types for the response.
+- header: Content-Type
+  value: application/json
+  description: Defines the request body MIME type for POST and PUT requests.
+- header: Content-Type
+  value: application/x-www-form-urlencoded
+  description: Required for POSTs to obtain codes or tokens from the authorization/resource server.
+support: api-support@uship.com
+partner_contact: partners@uship.com

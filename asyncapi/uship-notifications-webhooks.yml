@@ -1,0 +1,60 @@
+generated: '2026-08-02'
+method: searched
+source: >-
+  uShip Published Rates service-provider reference —
+  https://developer.uship.com/docs/read/apis/published_rates/rate_provider/Rate_Request_Notification,
+  .../Booking_Acceptance_Notification, .../Setup, and
+  https://developer.uship.com/docs/read/apis/published_rates/Workflow
+spec_type: none
+spec_note: >-
+  uShip publishes no AsyncAPI document and no event-streaming surface. It does operate a real HTTP
+  callback (webhook) surface for Published Rates service providers, captured below from the provider's own
+  documentation. Nothing here is fabricated — only the notifications uShip documents.
+webhooks:
+  supported: true
+  style: HTTP POST callback to a partner-registered recipient URL
+  media_type: application/json
+  subscription: >-
+    Not self-service. A service provider registers a recipient URL and selects a saved search during
+    integration setup with the uShip API team; changes to saved-search criteria are requested via
+    api-support@uship.com.
+  security: >-
+    No published signing, HMAC, or replay-protection scheme. Payload integrity is addressed with a
+    `checksum` field that changes whenever relevant rate-request data changes, letting the receiver detect
+    that a request has been modified since it was created.
+  events:
+  - name: Rate Request Notification
+    direction: uShip -> service provider
+    docs: https://developer.uship.com/docs/read/apis/published_rates/rate_provider/Rate_Request_Notification
+    description: >-
+      POSTed to the service provider's recipient URL when a listing or rate request matches the saved
+      search the provider selected for notification, or when a listing is edited or updated in a way that
+      could change the price of a previously placed rate (for example a destination change).
+    payload_fields:
+    - {field: id, type: string, description: Unique identifier of the rate.}
+    - {field: checksum, type: string, description: Changes any time a user or the system updates relevant rate request data; verifies the rate request has not changed since it was created.}
+    - {field: testMode, type: boolean, description: 'true — the rate request is in test mode and does not appear on production; false — results appear on production.'}
+    - {field: totalWeightInGrams, type: container, description: Data trio (value/label/shortLabel) describing total shipment weight in grams.}
+    - {field: serviceTypes, type: container, description: Array of data trios listing the service types for the listing.}
+    - {field: route, type: object, description: See the Route object reference.}
+    - {field: lister, type: object, description: See the Listers object reference.}
+    - {field: items, type: object, description: See the Listing Items object reference.}
+  - name: Booking Acceptance Notification
+    direction: uShip -> service provider
+    docs: https://developer.uship.com/docs/read/apis/published_rates/rate_provider/Booking_Acceptance_Notification
+    description: >-
+      POSTed to the service provider when a shipping customer chooses one of the provider's published
+      rates. The provider then accepts or declines the booking request; on acceptance the listing is booked.
+  - name: Booking Acceptance Notification (shipping customer)
+    direction: uShip -> shipping customer integration
+    docs: https://developer.uship.com/docs/read/apis/published_rates/shipping_customer/Booking_Acceptance_Notification
+    description: >-
+      The shipping-customer side of the booking acceptance flow, notifying the customer integration of the
+      service provider's accept/decline decision on a rate booking.
+polling_alternatives:
+- name: Transit status history
+  operation: GET https://api.uship.com/v2/listings/{listingId}/transitStatuses
+  description: >-
+    Tracking is retrieved by polling rather than pushed — the location history and most recent reported
+    location for a booked listing, with punctuality against the bid's latest pickup and delivery times.
+  docs: https://developer.uship.com/docs/read/apis/Tracking_Reference

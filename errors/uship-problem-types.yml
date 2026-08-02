@@ -1,0 +1,87 @@
+generated: '2026-08-02'
+method: searched
+source: >-
+  uShip engineering blog "Actionable RESTful API Errors"
+  (https://www.uship.com/blog/shipping-code/actionable-restful-api-errors/) and
+  "Implementing API Errors with Web API and FluentValidation"
+  (https://www.uship.com/blog/shipping-code/implementing-api-errors-web-api-fluentvalidation/),
+  plus the uShip developer portal error-handling reference
+  (https://developer.uship.com/about-our-apis/error-handling)
+format: custom
+format_note: >-
+  uShip does NOT use RFC 9457 / RFC 7807 application/problem+json. It returns a proprietary
+  application/json envelope with a top-level `errors` array, one entry per validation or processing
+  failure, designed so a client can act on the error rather than just display it.
+envelope:
+  media_type: application/json
+  root_field: errors
+  cardinality: array — one object per distinct failure, so a single request can report many field errors
+  fields:
+  - name: errorCode
+    type: number
+    description: A unique code per type of error (required, too long, profanity filter, and so on).
+  - name: field
+    type: string
+    description: The field in the HTTP request that caused the error to be triggered.
+  - name: developerMessage
+    type: string
+    description: >-
+      A plain-English message describing the error, aimed at helping the developer fix their consumption
+      of the API.
+  - name: documentation
+    type: string (url)
+    description: >-
+      Where applicable, a link to the API documentation describing where the particular validation rule
+      is defined.
+  - name: userMessage
+    type: string
+    description: >-
+      A localized message describing the error, intended to be surfaced in a UI to the end user of the
+      client application.
+example:
+  status: 400
+  media_type: application/json
+  body: |
+    {
+      "errors": [
+        {
+          "errorCode": "<number>",
+          "field": "<string>",
+          "developerMessage": "<string>",
+          "documentation": "<url>",
+          "userMessage": "<string>"
+        }
+      ]
+    }
+problems:
+- status: 400
+  title: Bad Request
+  description: >-
+    Validation failure on the request body or query parameters. Returns the `errors[]` envelope with one
+    entry per failing field. This is the canonical uShip error response documented by the provider.
+  envelope: errors[]
+- status: 401
+  title: Unauthorized
+  description: >-
+    Missing or expired OAuth 2.0 bearer token. api.uship.com answers unauthenticated requests with
+    {"message":"Missing Authentication Token"} at the AWS API Gateway edge before reaching the application.
+  observed: true
+  evidence: 'GET https://api.uship.com/v2/ → 403 {"message":"Missing Authentication Token"} (2026-08-02)'
+- status: 403
+  title: Forbidden
+  description: >-
+    Token present but the integration has not been granted access to the requested resource. uShip grants
+    resource access per integration rather than via named OAuth scopes.
+- status: 404
+  title: Not Found
+  description: >-
+    Listing, rate request, or other resource not found, or not visible to the authenticated user. Listing
+    endpoints are valid only for the Lister or the winning Bidder on a booked listing.
+notes:
+- >-
+  uShip's error design is documented publicly on its engineering blog but the machine-readable contract
+  (an OpenAPI definition enumerating per-operation 4xx/5xx responses) is not published — the developer
+  portal is invitation-only. There is no published registry of errorCode values.
+- >-
+  No `type` URI, `title`, `detail`, or `instance` members — this predates and does not implement
+  RFC 7807/9457. See conformance/uship-conformance.yml.

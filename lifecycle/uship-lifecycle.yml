@@ -1,0 +1,49 @@
+generated: '2026-08-02'
+method: searched
+source: >-
+  https://uship.statuspage.io/ (probed 200, title "uShip Status"), uShip developer portal
+  hypermedia/versioning guidance, and https://developer.uship.com/API_Terms_of_Use
+versioning:
+  scheme: uri-path
+  current: v2
+  base: https://api.uship.com/v2
+  docs: https://developer.uship.com/docs
+  note: >-
+    "URIs might change when incrementing versions" — uShip directs clients to follow hypermedia `href`
+    values rather than hard-code paths, so version migration is expected to be link-driven.
+deprecation:
+  policy_url: null
+  policy_published: false
+  sunset_header: unknown
+  note: >-
+    No public deprecation policy, no documented Sunset/Deprecation (RFC 8594) header support, and no
+    published end-of-life schedule for v2 or the retired v1. Recorded as absent — no Deprecation pointer
+    is emitted.
+status_page: https://uship.statuspage.io/
+status_page_provider: Atlassian Statuspage
+status_page_evidence:
+  fetched: '2026-08-02'
+  url: https://uship.statuspage.io/
+  http_status: 200
+  title: uShip Status
+sla:
+  url: null
+  uptime_target: null
+  note: No public SLA or uptime commitment is published for the uShip API.
+changelog:
+  url: null
+  note: No dated public API changelog or release-notes page was found; the developer portal is invitation-only.
+terms:
+  api_terms_of_use: https://developer.uship.com/API_Terms_of_Use
+  user_agreement: https://help.uship.com/hc/articles/360008771433-user-agreement/
+  precedence: >-
+    uShip's stated order of precedence is uShip User Agreement, then uShip API Terms of Use, then the
+    technical documentation.
+  approval_required: >-
+    "You must be granted approval by a designated uShip representative before the uShip API Team will
+    grant access to use the API."
+support:
+  api_support: api-support@uship.com
+  partners: partners@uship.com
+  help_center: https://help.uship.com/
+deprecated_operations: []

@@ -1,0 +1,57 @@
+generated: '2026-08-02'
+method: probed
+source: live GET of /.well-known/* on every uShip host in apis.yml
+note: >-
+  No /.well-known/ discovery documents are published on any uShip host. developer.uship.com is a
+  DeveloperHub-hosted single-page application whose catch-all route answers HTTP 200 with the same
+  34,850-byte HTML shell for every path — those 200s are NOT documents and are recorded as such.
+  api.uship.com is an AWS API Gateway distribution behind CloudFront that answers every unauthenticated
+  path with 403 {"message":"Missing Authentication Token"}.
+hosts:
+- host: https://www.uship.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+- host: https://developer.uship.com
+  spa_catch_all: true
+  documents:
+  - path: /.well-known/security.txt
+    status: 200
+    valid: false
+    note: SPA HTML shell, not RFC 9116 text — rejected
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    valid: false
+    note: SPA HTML shell, not RFC 8414 JSON — rejected
+  - path: /.well-known/agent-card.json
+    status: 200
+    valid: false
+    note: SPA HTML shell, not an A2A AgentCard — rejected
+- host: https://api.uship.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 403
+  - path: /.well-known/oauth-authorization-server
+    status: 403
+  - path: /.well-known/openid-configuration
+    status: 403
+  - path: /.well-known/agent-card.json
+    status: 403
+found:
+  security_txt: false
+  openid_configuration: false
+  oauth_authorization_server: false
+  api_catalog: false
+  ai_plugin: false
+  agent_card: false
+x-evidence:
+  fetched: '2026-08-02'
+  method: curl -s -o /dev/null -w '%{http_code}' -L

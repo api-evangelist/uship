@@ -1,0 +1,104 @@
+generated: '2026-08-02'
+method: searched
+source: >-
+  uShip developer portal reference — /docs/Hypermedia_Links, /docs/Authentication_OAuth2,
+  /docs/read/apis/Search, /docs/read/apis/Tracking_Reference,
+  /docs/read/apis/published_rates/rate_provider/Rate_Request_Notification — and the uShip engineering
+  blog error-design posts
+api: uShip API v2
+media_type: application/json
+authentication:
+  style: oauth2-bearer
+  header: 'Authorization: Bearer {access_token}'
+  note: The "Bearer" label is case sensitive and must be followed by a single space.
+  detail: authentication/uship-authentication.yml
+versioning:
+  scheme: uri-path
+  current: v2
+  base: https://api.uship.com/v2
+  note: >-
+    uShip explicitly warns clients not to hard-code URIs because they may change when versions increment,
+    and to follow hypermedia `href` values instead.
+hypermedia:
+  supported: true
+  style: custom link array (not HAL/JSON:API/Siren)
+  response_field: links
+  link_fields:
+  - {field: rel, type: string, description: 'The action the link relates to, e.g. "Create", "List".'}
+  - {field: verb, type: string, description: 'REST verb for the action — GET, PUT, POST, DELETE.'}
+  - {field: href, type: string, description: 'URI of the action, e.g. /v2/listings/{listingId}/bids.'}
+  - {field: title, type: string, description: 'Descriptive name of the action, e.g. "bidAtNamedPrice".'}
+  guidance: >-
+    "A client's goal should be programmatically learning the links... not hard code URIs or parameters in
+    your applications." Links appear only when the authenticated user has permission to perform the
+    action, so `links[]` doubles as the permission model. uShip recommends keying client logic off the
+    `rel` and `title` fields.
+  example: |
+    "links": [
+      { "rel": "List",   "verb": "GET",  "href": "/v2/savedSearches", "title": "savedSearches" },
+      { "rel": "Create", "verb": "POST", "href": "/v2/search",        "title": "search" }
+    ]
+pagination:
+  style: odata-query-parameters
+  params:
+  - {name: $skip, type: integer, description: Number of previous entries to pass over before returning results.}
+  - {name: $top, type: integer, description: How many total items to return from the collection after any skipped entries.}
+  default_page_size: 25
+  response_fields:
+  - {field: totalCount, description: Total number of items in the collection; unchanged by $skip/$top.}
+  - {field: items, description: The page of results.}
+  next_page: >-
+    Delivered as a hypermedia link in `links[]` rather than a cursor field — "The default page size
+    returned is 25 entries with a hypermedia link for the client to return more entries."
+idempotency:
+  supported: false
+  note: >-
+    uShip publishes no idempotency-key header, no request-replay contract, and no retry-safety guidance
+    for its write operations. Recorded as absent — no Idempotency pointer is emitted for this provider.
+data_trio:
+  supported: true
+  description: >-
+    A recurring uShip response idiom: quantitative and enumerated values are returned as a three-part
+    container of `value`, `label`, and `shortLabel` so clients can render a display string without
+    reimplementing uShip's formatting or localization.
+  example: '{"value": "EnclosedTransport", "label": "Enclosed Transport", "shortLabel": "Enclosed Transport"}'
+  applies_to: [serviceTypes, punctuality, timeFrameType, distance, weight, addresses]
+units:
+  weight: grams (totalWeightInGrams), with a formatted imperial label in the data trio
+  distance: kilometers, with a formatted mile label in the data trio
+  timestamps: ISO 8601 UTC (for example 2014-10-15T21:34:50Z)
+  geo: decimal latitude/longitude
+test_mode:
+  supported: true
+  field: testMode
+  type: boolean
+  description: >-
+    Payloads carry a `testMode` boolean — true means the object is in test mode and does not appear on
+    production. See sandbox/uship-sandbox.yml.
+change_detection:
+  field: checksum
+  description: >-
+    Rate requests carry a `checksum` that changes whenever a user or the system updates relevant rate
+    request data, so a service provider can verify a rate request has not changed since it was created.
+errors:
+  envelope: errors[]
+  format: custom (not RFC 9457)
+  detail: errors/uship-problem-types.yml
+rate_limiting:
+  documented: false
+  note: >-
+    The developer portal advertises "rate limits" as a documented topic but the values are behind the
+    invitation-only portal; no public rate-limit headers or quotas were found.
+lookups:
+  description: >-
+    Enumerated values are not hard-coded by clients — uShip publishes lookup collections that clients call
+    to obtain valid enumerations.
+  collections: [Commodities, Address Types, Regions, Currencies, Service Types, Trailer Types, Vehicle Year/Make/Model]
+  reference: https://developer.uship.com/about-our-apis/uship-api-reference-enumerations
+cross_links:
+  authentication: authentication/uship-authentication.yml
+  errors: errors/uship-problem-types.yml
+  lifecycle: lifecycle/uship-lifecycle.yml
+  webhooks: asyncapi/uship-notifications-webhooks.yml
+  sandbox: sandbox/uship-sandbox.yml
+  data_model: data-model/uship-data-model.yml
