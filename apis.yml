@@ -24,6 +24,19 @@ x-enrichment:
   artifacts_added: 12
   pass: local-v1
 tags:
+- Shipping
+- Logistics
+- Freight
+- Marketplace
+- Transportation
+- auto-transport
+- ltl-freight
+- Last Mile Delivery
+- Shipment Tracking
+- E-Commerce
+- Supply Chain
+- rate-quotes
+tags_raw:
 - shipping
 - logistics
 - freight
@@ -53,6 +66,12 @@ apis:
   humanURL: https://developer.uship.com/docs
   baseURL: https://api.uship.com/v2
   tags:
+  - Shipping
+  - Logistics
+  - Marketplace
+  - Shipment Tracking
+  - Freight
+  tags_raw:
   - shipping
   - logistics
   - marketplace
@@ -85,6 +104,11 @@ apis:
   humanURL: https://developer.uship.com/docs/read/apis/published_rates
   baseURL: https://api.uship.com/v2
   tags:
+  - Freight
+  - rate-quotes
+  - ltl-freight
+  - Logistics
+  tags_raw:
   - freight
   - rate-quotes
   - ltl-freight
@@ -107,6 +131,10 @@ apis:
   baseURL: https://api.uship.com/v2
   tags:
   - ltl-freight
+  - Freight
+  - Logistics
+  tags_raw:
+  - ltl-freight
   - freight
   - logistics
   properties:
@@ -121,6 +149,10 @@ apis:
   humanURL: https://developer.uship.com/ltl-direct-api
   baseURL: https://api.uship.com/v2
   tags:
+  - ltl-freight
+  - Freight
+  - Logistics
+  tags_raw:
   - ltl-freight
   - freight
   - logistics
@@ -138,6 +170,10 @@ apis:
   baseURL: https://api.uship.com/v2
   tags:
   - auto-transport
+  - Shipping
+  - Marketplace
+  tags_raw:
+  - auto-transport
   - shipping
   - marketplace
   properties:
@@ -152,6 +188,10 @@ apis:
   humanURL: https://developer.uship.com/uship-furniture-api-reference/ref
   baseURL: https://api.uship.com/v2
   tags:
+  - Last Mile Delivery
+  - E-Commerce
+  - Shipping
+  tags_raw:
   - last-mile-delivery
   - ecommerce
   - shipping
@@ -167,6 +207,9 @@ apis:
   humanURL: https://developer.uship.com/integrator-users-api
   baseURL: https://api.uship.com/v2
   tags:
+  - Marketplace
+  - Logistics
+  tags_raw:
   - marketplace
   - logistics
   properties:
@@ -180,6 +223,10 @@ apis:
   humanURL: https://developer.uship.com/shipper-api-guides/tracking-api-guide
   baseURL: https://api.uship.com/v2
   tags:
+  - Shipment Tracking
+  - Logistics
+  - Supply Chain
+  tags_raw:
   - shipment-tracking
   - logistics
   - supply-chain
