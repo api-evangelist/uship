@@ -12,6 +12,17 @@ description: >-
   lookups, and integrator user management. API access is partner-gated — the developer portal at
   developer.uship.com is invitation-only and access is granted by the uShip API team.
 url: https://raw.githubusercontent.com/api-evangelist/uship/refs/heads/main/apis.yml
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: false
+  label: Hosted service · you call their endpoint
+  confidence: medium
+  source:
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 image: https://www.uship.com/apple-touch-icon.png
 x-type: company
 x-source: harvest:secondary-market
