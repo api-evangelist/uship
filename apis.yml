@@ -37,13 +37,13 @@ x-enrichment:
 tags:
 - Shipping
 - Logistics
-- freight
+- Freight
 - Marketplace
 - Transportation
 - auto-transport
 - ltl-freight
-- last-mile-delivery
-- shipment-tracking
+- Last Mile Delivery
+- Shipment Tracking
 - E-Commerce
 - Supply Chain
 - rate-quotes
@@ -80,8 +80,8 @@ apis:
   - Shipping
   - Logistics
   - Marketplace
-  - shipment-tracking
-  - freight
+  - Shipment Tracking
+  - Freight
   tags_raw:
   - shipping
   - logistics
@@ -115,7 +115,7 @@ apis:
   humanURL: https://developer.uship.com/docs/read/apis/published_rates
   baseURL: https://api.uship.com/v2
   tags:
-  - freight
+  - Freight
   - rate-quotes
   - ltl-freight
   - Logistics
@@ -142,7 +142,7 @@ apis:
   baseURL: https://api.uship.com/v2
   tags:
   - ltl-freight
-  - freight
+  - Freight
   - Logistics
   tags_raw:
   - ltl-freight
@@ -161,7 +161,7 @@ apis:
   baseURL: https://api.uship.com/v2
   tags:
   - ltl-freight
-  - freight
+  - Freight
   - Logistics
   tags_raw:
   - ltl-freight
@@ -199,7 +199,7 @@ apis:
   humanURL: https://developer.uship.com/uship-furniture-api-reference/ref
   baseURL: https://api.uship.com/v2
   tags:
-  - last-mile-delivery
+  - Last Mile Delivery
   - E-Commerce
   - Shipping
   tags_raw:
@@ -234,7 +234,7 @@ apis:
   humanURL: https://developer.uship.com/shipper-api-guides/tracking-api-guide
   baseURL: https://api.uship.com/v2
   tags:
-  - shipment-tracking
+  - Shipment Tracking
   - Logistics
   - Supply Chain
   tags_raw:
