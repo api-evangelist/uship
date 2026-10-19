@@ -1,16 +1,62 @@
 generated: '2026-10-12'
-method: none
+method: searched
 source:
 - https://zapier.com/apps/uship/integrations
 - https://n8n.io/integrations/uship/
 - https://composio.dev/toolkits/uship
 - https://monid.ai/tools/uship
 checked:
+- https://api.nuget.org/v3
 - https://composio.dev/toolkits/uship
+- https://crates.io/api/v1
 - https://monid.ai/tools/uship
 - https://n8n.io/integrations/uship/
+- https://proxy.golang.org
+- https://pypi.org/pypi
+- https://registry.npmjs.org
+- https://repo1.maven.org/maven2
+- https://rubygems.org/api/v1
 - https://zapier.com/apps/uship/integrations
 summary: null
 marketplace_apps: []
-edges: []
+edges:
+- partner_name: npm registry
+  partner: npm
+  partner_match: register
+  type: register
+  direction: provider-built
+  category: official SDK (JavaScript/TypeScript)
+  evidence: https://www.npmjs.com/package/uship
+  channel: package-registry
+  relationship: distribution-channel
+  contract_reference:
+    register: npm registry (public registry JSON)
+    spec_file: null
+    language: JavaScript/TypeScript
+    packages:
+    - name: uship
+      version: 0.0.5
+      released: '2022-06-28'
+      released_field: modified
+      lapsed: true
+      page: https://www.npmjs.com/package/uship
+      repo_leg: github-org:uship
+      publisher_leg: email:uship.com
+      matched_by: domain
+    - name: uship-api
+      version: 0.0.4
+      released: '2022-06-28'
+      released_field: modified
+      lapsed: true
+      page: https://www.npmjs.com/package/uship-api
+      repo_leg: github-org:uship
+      publisher_leg: email:uship.com
+      matched_by: domain
+    current: false
+    signal_note: 'an official package on the registry: distribution, not an integration; lapsed = no release in
+      24 months'
+    detected_by: sweep-official-sdks.py
+    detected: '2026-10-18'
+  detected_by: sweep-official-sdks.py
+  first_seen: '2026-10-18'
 templates: []
